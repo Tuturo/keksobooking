@@ -1,38 +1,28 @@
 // Получить случайное целое число в диапазоне
 
-function getRandomInt(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
+const getRandomInt = (min, max) => {
 
-    if ((min >= 0) && (max => 0)) {
-        
-        if (min > max) {
-            let replace = min;
-            min = max;
-            max = replace;
-        };
+    if (min < 0 || max < 0) {
+        return -1;
+    };
 
-    } else {
-        return console.log('Только положительные числа!');
+    if (min > max) {
+        [min, max] = [max, min];
     };
 
     return Math.floor(Math.random() * (max - min + 1) + min);
-}
+};
 
 // Случайное число с плавающей точкой
 
-function getRandomIntFloat(min, max, rounding) {
+const getRandomIntFloat = (min, max, rounding) => {
 
-    if ((min >= 0) && (max >= 0) && (rounding >= 0)) {
+    if (min < 0 || max < 0) {
+        return -1;
+    };
 
-        if (min > max) {
-            let replace = min;
-            min = max;
-            max = replace;
-        };
-
-    } else {
-        return console.log('Только положительные значения!');
+    if (min > max) {
+        [min, max] = [max, min];
     };
 
     let randomNumber = Math.random() * (max - min) + min;
@@ -43,4 +33,4 @@ function getRandomIntFloat(min, max, rounding) {
     }
 
     return Math.trunc(randomNumber * roundingValue) / roundingValue;
-}
+};
