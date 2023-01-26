@@ -1,1 +1,1 @@
-import './modules/util.js';
+import {getRandomInt, getRandomIntFloat} from './modules/util.js';
