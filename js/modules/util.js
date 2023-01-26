@@ -34,3 +34,5 @@ const getRandomIntFloat = (min, max, rounding) => {
 
     return Math.trunc(randomNumber * roundingValue) / roundingValue;
 };
+
+export {getRandomInt, getRandomIntFloat};
