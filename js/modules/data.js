@@ -7,8 +7,6 @@ const AUTHORS = [
     'img/avatars/user06.png',
     'img/avatars/user07.png',
     'img/avatars/user08.png',
-    'img/avatars/user09.png',
-    'img/avatars/user10.png',
 ];
 
 const TITLES = [

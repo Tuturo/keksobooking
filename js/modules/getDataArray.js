@@ -32,7 +32,7 @@ const getOffer = () => {
         offer: {
             title: getRandomArrayElement(TITLES),
             address: '{{location.x}}, {{location.y}}',
-            price: `${getRandomInt(10000, 50000)} руб./месяц`,
+            price: getRandomInt(10000, 50000),
             type: getRandomArrayElement(TYPES),
             rooms: getRandomInt(1, 7),
             guests: getRandomInt(2, 14),
