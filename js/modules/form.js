@@ -7,7 +7,10 @@ const adForm = document.querySelector('.ad-form');
 const types = adForm.querySelector('#type');
 const price = adForm.querySelector('#price');
 
-const checkValues = (evt) => {
+const timeIn = adForm.querySelector('#timein');
+const timeOut = adForm.querySelector('#timeout');
+
+const checkValues = () => {
     
     for (let i = 0; i <= pricesKeys.length - 1; i++) {
 
@@ -19,4 +22,14 @@ const checkValues = (evt) => {
     
 };
 
+const setTimeOut = () => {
+    timeOut.value = timeIn.value;
+};
+
+const setTimeIn = () => {
+    timeIn.value = timeOut.value;
+};
+
 types.addEventListener('change', checkValues);
+timeIn.addEventListener('change', setTimeOut);
+timeOut.addEventListener('change', setTimeIn);

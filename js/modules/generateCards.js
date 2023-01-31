@@ -1,7 +1,5 @@
 import {NEW_ARRAY} from './getDataArray.js';
 
-console.log(NEW_ARRAY);
-
 const cardTemplate = document.querySelector('#card').content;
 const popupTemplate = cardTemplate.querySelector('.popup');
 
