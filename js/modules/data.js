@@ -57,4 +57,12 @@ const PHOTOS = [
     'http://o0.github.io/assets/images/tokyo/hotel3.jpg',
 ];
 
-export {AUTHORS, TITLES, TYPES, TIMES, FEATURE_LIST, DESCRIPTIONS, PHOTOS};
+const MIN_PRICES = {
+    bungalow: '0',
+    flat: '1000',
+    hotel: '3000',
+    house: '5000',
+    palace: '10000',
+};
+
+export {AUTHORS, TITLES, TYPES, TIMES, FEATURE_LIST, DESCRIPTIONS, PHOTOS, MIN_PRICES};
