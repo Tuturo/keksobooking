@@ -14,5 +14,17 @@ disablesElements(mapFiltersChildren);
 adForm.classList.add('ad-form--disabled');
 disablesElements(formFieldsets);
 
+const enablesElements = (elements) => {
+    for (let element of elements) {
+        element.removeAttribute('disabled');
+    };
+};
 
+const activateElements = () => {
+    mapFilters.classList.remove('map__filters--disabled');
+    enablesElements(mapFiltersChildren);
+    adForm.classList.remove('ad-form--disabled');
+    enablesElements(formFieldsets);
+};
 
+export { activateElements };
