@@ -35,4 +35,13 @@ const getRandomIntFloat = (min, max, rounding) => {
     return Math.trunc(randomNumber * roundingValue) / roundingValue;
 };
 
-export {getRandomInt, getRandomIntFloat};
+const discardExtraDigits = (number, rounding) => {
+    let roundingValue = 1;
+    for (let i = 0; i < rounding; i++) {
+        roundingValue *= 10;
+    }
+
+    return Math.trunc(number * roundingValue) / roundingValue;
+};
+
+export {getRandomInt, getRandomIntFloat, discardExtraDigits};
