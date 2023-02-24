@@ -1,5 +1,6 @@
 import { activateElements } from './load.js';
 import { discardExtraDigits } from './util.js';
+import { NEW_ARRAY } from './getDataArray.js';
 
 const mapCanvas = document.querySelector('#map-canvas');
 const adFormAddress = document.querySelector('#address');
@@ -13,7 +14,7 @@ const map = L.map(mapCanvas)
     .setView({
         lat: 35.68950,
         lng: 139.69171,
-}, 9);
+}, 13);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
 
@@ -27,6 +28,12 @@ const mainPinIcon = L.icon({
     iconUrl: '../../leaflet/img/main-pin.svg',
     iconSize: [52, 52],
     iconAnchor: [26, 52],
+});
+
+const pinIcon = L.icon({
+    iconUrl: '../../leaflet/img/pin.svg',
+    iconSize: [40, 40],
+    iconAnchor: [20, 40],
 });
 
 const mainMarker = L.marker(
@@ -46,3 +53,17 @@ mainMarker.on('moveend', (evt) => {
     let coordinates = evt.target.getLatLng();;
     adFormAddress.value = `${discardExtraDigits(coordinates.lat, 5)}, ${discardExtraDigits(coordinates.lng, 5)}`;
 });
+
+for (let element of NEW_ARRAY) {
+    const { location: {x, y} } = element;
+
+    const marker = L.marker(
+        {
+            lat: x,
+            lng: y,
+        },
+        {
+            icon: pinIcon,
+        },
+    ).addTo(map);
+};
