@@ -1,6 +1,7 @@
 import { activateElements } from './load.js';
 import { discardExtraDigits } from './util.js';
 import { NEW_ARRAY } from './getDataArray.js';
+import { getCard } from './generateCards.js';
 
 const mapCanvas = document.querySelector('#map-canvas');
 const adFormAddress = document.querySelector('#address');
@@ -14,7 +15,7 @@ const map = L.map(mapCanvas)
     .setView({
         lat: 35.68950,
         lng: 139.69171,
-}, 13);
+}, 10);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
 
@@ -55,7 +56,7 @@ mainMarker.on('moveend', (evt) => {
 });
 
 for (let element of NEW_ARRAY) {
-    const { location: {x, y} } = element;
+    const { location: {x, y},  offer, author } = element;
 
     const marker = L.marker(
         {
@@ -65,5 +66,9 @@ for (let element of NEW_ARRAY) {
         {
             icon: pinIcon,
         },
-    ).addTo(map);
+    );
+
+    marker
+        .addTo(map)
+        .bindPopup(getCard(offer, author));
 };
