@@ -15,8 +15,8 @@ const checkValues = () => {
     for (let i = 0; i <= pricesKeys.length - 1; i++) {
 
         if (types.value === pricesKeys[i]) {
-            price.placeholder = pricesValues[i];
             price.min = pricesValues[i];
+            price.placeholder = pricesValues[i];
         };
     };
     
