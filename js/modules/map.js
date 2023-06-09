@@ -1,7 +1,7 @@
 import { activateElements } from './load.js';
 import { discardExtraDigits } from './util.js';
-import { NEW_ARRAY } from './getDataArray.js';
 import { getCard } from './generateCards.js';
+import { getData } from './api.js';
 
 const mapCanvas = document.querySelector('#map-canvas');
 const adFormAddress = document.querySelector('#address');
@@ -55,20 +55,32 @@ mainMarker.on('moveend', (evt) => {
     adFormAddress.value = `${discardExtraDigits(coordinates.lat, 5)}, ${discardExtraDigits(coordinates.lng, 5)}`;
 });
 
-for (let element of NEW_ARRAY) {
-    const { location: {x, y},  offer, author } = element;
+const createMarkers = (array) => {
 
-    const marker = L.marker(
-        {
-            lat: x,
-            lng: y,
-        },
-        {
-            icon: pinIcon,
-        },
-    );
+    for (let element of array) {
 
-    marker
-        .addTo(map)
-        .bindPopup(getCard(offer, author));
+        const { location,  offer, author } = element;
+    
+        const marker = L.marker(
+            {
+                lat: location.lat,
+                lng: location.lng,
+            },
+            {
+                icon: pinIcon,
+            },
+        );
+    
+        marker
+            .addTo(map)
+            .bindPopup(getCard(offer, author));
+    };
 };
+
+getData(
+    (response) => {
+        createMarkers(response);
+    },
+    (err) => {
+        console.log(err);
+});
