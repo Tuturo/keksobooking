@@ -1,61 +1,85 @@
 import { activateElements } from './load.js';
 import { discardExtraDigits } from './util.js';
 import { getCard } from './generateCards.js';
-import { getData } from './api.js';
 
 const mapCanvas = document.querySelector('#map-canvas');
 const adFormAddress = document.querySelector('#address');
 
-const map = L.map(mapCanvas)
-    .on('load', () => {
-        activateElements();
-        adFormAddress.readOnly = true;
-        adFormAddress.value = '35.68950, 139.69171';
-    })
-    .setView({
-        lat: 35.68950,
-        lng: 139.69171,
-}, 10);
+let map;
 
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
+const createMap = () => {
 
-    {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    },
+    return new Promise((resolve) => {
 
-).addTo(map);
+        map = L.map(mapCanvas)
+            .on('load', () => {
+                adFormAddress.readOnly = true;
+                adFormAddress.value = '35.68950, 139.69171';
+            })
+            .setView({
+                lat: 35.68950,
+                lng: 139.69171,
+        }, 14);
 
-const mainPinIcon = L.icon({
-    iconUrl: '../../leaflet/img/main-pin.svg',
-    iconSize: [52, 52],
-    iconAnchor: [26, 52],
-});
+        resolve(map);
+    });
+};
 
-const pinIcon = L.icon({
-    iconUrl: '../../leaflet/img/pin.svg',
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
-});
+const renderMap = (createMap) => {
 
-const mainMarker = L.marker(
-    {
-        lat: 35.68950,
-        lng: 139.69171,
-    },
-    {
-        draggable: true,
-        icon: mainPinIcon,
-    },
-);
+    return new Promise((resolve) => {
 
-mainMarker.addTo(map);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', 
 
-mainMarker.on('moveend', (evt) => {
-    let coordinates = evt.target.getLatLng();;
-    adFormAddress.value = `${discardExtraDigits(coordinates.lat, 5)}, ${discardExtraDigits(coordinates.lng, 5)}`;
-});
+        {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        },
+
+        ).addTo(createMap);
+
+        resolve(createMap);
+    });
+};
+
+const setMainMarker = (renderMap) => {
+
+    return new Promise((resolve) => {
+
+        const mainPinIcon = L.icon({
+            iconUrl: '../../leaflet/img/main-pin.svg',
+            iconSize: [52, 52],
+            iconAnchor: [26, 52],
+        });
+
+        const mainMarker = L.marker(
+            {
+                lat: 35.68950,
+                lng: 139.69171,
+            },
+            {
+                draggable: true,
+                icon: mainPinIcon,
+            },
+        );
+
+        mainMarker.addTo(renderMap);
+
+        mainMarker.on('moveend', (evt) => {
+            let coordinates = evt.target.getLatLng();;
+            adFormAddress.value = `${discardExtraDigits(coordinates.lat, 5)}, ${discardExtraDigits(coordinates.lng, 5)}`;
+        });
+
+        resolve(renderMap);
+    });
+};
 
 const createMarkers = (array) => {
+
+    const pinIcon = L.icon({
+        iconUrl: '../../leaflet/img/pin.svg',
+        iconSize: [40, 40],
+        iconAnchor: [20, 40],
+    });
 
     for (let element of array) {
 
@@ -70,17 +94,12 @@ const createMarkers = (array) => {
                 icon: pinIcon,
             },
         );
-    
+        
+        activateElements();
         marker
             .addTo(map)
             .bindPopup(getCard(offer, author));
     };
 };
 
-getData(
-    (response) => {
-        createMarkers(response);
-    },
-    (err) => {
-        console.log(err);
-});
+export { createMap, renderMap, setMainMarker, createMarkers };
