@@ -1,6 +1,7 @@
 import { activateElements } from './load.js';
 import { discardExtraDigits } from './util.js';
 import { getCard } from './generateCards.js';
+import { comparePins,checkPin } from './filter.js';
 
 const mapCanvas = document.querySelector('#map-canvas');
 const adFormAddress = document.querySelector('#address');
@@ -75,13 +76,17 @@ const setMainMarker = (renderMap) => {
 
 const createMarkers = (array) => {
 
+    map.closePopup();
+
+    const filteredArray = array.slice().filter((item) => checkPin(item)).slice(0, 10);
+
     const pinIcon = L.icon({
         iconUrl: '../../leaflet/img/pin.svg',
         iconSize: [40, 40],
         iconAnchor: [20, 40],
     });
 
-    for (let element of array) {
+    for (let element of filteredArray) {
 
         const { location,  offer, author } = element;
     

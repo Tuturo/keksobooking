@@ -9,17 +9,17 @@ const checkStatus = (response) => {
     throw new Error(`${status} — ${statusText}`);
 };
 
-const getData = (onSuccess, onError) => {
-     fetch('https://23.javascript.pages.academy/keksobooking/data')
-        .then(checkStatus)
-        .then((response) => response.json())
-        .then((json) => {
-            onSuccess(json);
-        })
-        .catch((err) => {
-            showAlert('Сервер недоступен. Попробуйте позже!');
-            onError(err);
-        });
+const getData = (onSuccess) => {
+    fetch('https://23.javascript.pages.academy/keksobooking/data')
+       .then(checkStatus)
+       .then((response) => response.json())
+       .then((json) => {
+           onSuccess(json);
+       })
+       .catch((err) => {
+           showAlert('Сервер недоступен. Попробуйте позже!');
+           onError(err);
+       });
 };
 
 const sendData = (onSuccess, onFail, body) => {
