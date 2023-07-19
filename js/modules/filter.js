@@ -1,5 +1,3 @@
-import { TYPES } from "./data.js";
-
 const mapCanvas = document.querySelector('#map-canvas');
 const mapFilters = document.querySelector('.map__filters');
 
@@ -121,11 +119,14 @@ const checkPin = (item) => {
     };
  };
 
+ const RERENDER_DELAY = 500;
+
 const setFilter = (cb) => {
-    mapFilters.addEventListener('change', () => {
-        removePins();
-        cb();
-    });
+    mapFilters.addEventListener('change', _.debounce(
+        () => {
+            removePins();
+            cb();
+        }, RERENDER_DELAY));
 };
 
 
